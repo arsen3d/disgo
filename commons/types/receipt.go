@@ -19,11 +19,10 @@ package types
 import (
 	"encoding/json"
 	"fmt"
-	"time"
-
 	"github.com/dgraph-io/badger"
 	"github.com/dispatchlabs/disgo/commons/utils"
 	"github.com/google/uuid"
+	"time"
 )
 
 // Name
@@ -34,7 +33,7 @@ type Receipt struct {
 	HumanReadableStatus string
 	Data                interface{}
 	ContractAddress     string
-	ContractResult      []interface{}
+	ContractResult      interface{}
 	Created             time.Time
 }
 
@@ -152,8 +151,7 @@ func (this *Receipt) UnmarshalJSON(bytes []byte) error {
 		this.ContractAddress = jsonMap["contractAddress"].(string)
 	}
 	if jsonMap["contractResult"] != nil {
-		var contractResult = jsonMap["contractResult"]
-		this.ContractResult = contractResult.([]interface{})
+		this.ContractResult = jsonMap["contractResult"]
 	}
 	if jsonMap["created"] != nil {
 		created, err := time.Parse(time.RFC3339, jsonMap["created"].(string))
@@ -169,14 +167,14 @@ func (this *Receipt) UnmarshalJSON(bytes []byte) error {
 // MarshalJSON
 func (this Receipt) MarshalJSON() ([]byte, error) {
 	return json.Marshal(struct {
-		Id                  string        `json:"id"`
-		Type                string        `json:"type"`
-		Status              string        `json:"status"`
-		HumanReadableStatus string        `json:"humanReadableStatus,omitempty"`
-		Data                interface{}   `json:"data,omitempty"`
-		ContractAddress     string        `json:"contractAddress,omitempty"`
-		ContractResult      []interface{} `json:"contractResult,omitempty"`
-		Created             time.Time     `json:"created"`
+		Id                  string      `json:"id"`
+		Type                string      `json:"type"`
+		Status              string      `json:"status"`
+		HumanReadableStatus string      `json:"humanReadableStatus,omitempty"`
+		Data                interface{} `json:"data,omitempty"`
+		ContractAddress     string      `json:"contractAddress,omitempty"`
+		ContractResult      interface{} `json:"contractResult,omitempty"`
+		Created             time.Time   `json:"created"`
 	}{
 		Id:                  this.Id,
 		Type:                this.Type,
